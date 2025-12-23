@@ -2,6 +2,7 @@ import { useState } from "react";
 import { GraduationCap, User, ShieldCheck } from "lucide-react";
 import "./Login.css";
 
+
 function Login({ onLogin }) {
   const [role, setRole] = useState("student");
   const [email, setEmail] = useState("");

@@ -21,34 +21,45 @@ function Navbar({ activeTab, setActiveTab, user, onLogout }) {
   ];
 
   const handleClick = (id) => {
-    setActiveTab(id);
+    // Always go back to home before scrolling
+    setActiveTab("home");
     setOpen(false);
 
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 50);
   };
 
   return (
     <nav className="navbar">
       <div className="nav-container">
+        {/* Logo */}
         <div className="logo" onClick={() => handleClick("home")}>
           <GraduationCap size={32} />
           <span>IIT MADRAS</span>
         </div>
 
+        {/* Desktop Links */}
         <div className="nav-links">
           {links.map((l) => (
             <button
               key={l.id}
-              className={`nav-btn ${activeTab === l.id ? "active" : ""}`}
+              className={`nav-btn ${
+                activeTab === l.id || (activeTab !== "home" && l.id === "home")
+                  ? "active"
+                  : ""
+              }`}
               onClick={() => handleClick(l.id)}
             >
               {l.icon}
               {l.label}
             </button>
           ))}
+
+        
 
           {user ? (
             <button className="auth-btn logout" onClick={onLogout}>
@@ -64,11 +75,13 @@ function Navbar({ activeTab, setActiveTab, user, onLogout }) {
           )}
         </div>
 
+        {/* Mobile menu icon */}
         <div className="menu-icon" onClick={() => setOpen(!open)}>
           {open ? <X /> : <Menu />}
         </div>
       </div>
 
+      {/* Mobile Menu */}
       {open && (
         <div className="mobile-menu">
           {links.map((l) => (
@@ -76,10 +89,15 @@ function Navbar({ activeTab, setActiveTab, user, onLogout }) {
               {l.label}
             </button>
           ))}
+
+         
           {!user && (
             <button
               className="mobile-login"
-              onClick={() => setActiveTab("login")}
+              onClick={() => {
+                setActiveTab("login");
+                setOpen(false);
+              }}
             >
               Login
             </button>
