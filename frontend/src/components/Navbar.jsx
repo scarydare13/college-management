@@ -17,7 +17,6 @@ function Navbar({ activeTab, setActiveTab, user, onLogout }) {
   const links = [
     { id: "home", label: "Home", icon: <Info size={18} /> },
     { id: "courses", label: "Courses", icon: <BookOpen size={18} /> },
-    { id: "location", label: "Location", icon: <MapPin size={18} /> },
   ];
 
   const handleClick = (id) => {
@@ -39,7 +38,7 @@ function Navbar({ activeTab, setActiveTab, user, onLogout }) {
         {/* Logo */}
         <div className="logo" onClick={() => handleClick("home")}>
           <GraduationCap size={32} />
-          <span>IIT MADRAS</span>
+          <span>AIHT</span>
         </div>
 
         {/* Desktop Links */}

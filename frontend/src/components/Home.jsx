@@ -4,8 +4,8 @@ function Home() {
   return (
     <div className="home">
       <section id="home" className="hero">
-        <h1>IIT Madras</h1>
-        <p>Indian Institute of Technology Madras – Excellence in Education.</p>
+        <h1>AIHT</h1>
+        <p>AIHT – Excellence in Education.</p>
         <a href="#courses" className="hero-btn">Explore Courses</a>
       </section>
 
@@ -16,17 +16,6 @@ function Home() {
           <div className="card">B.Tech - AI & Data Science</div>
           <div className="card">B.Tech - Electrical Engineering</div>
           <div className="card">M.Tech & PhD Programs</div>
-        </div>
-      </section>
-
-      <section id="location" className="section light">
-        <h2>🗺 Location</h2>
-        <div className="map-container">
-          <iframe
-            title="IIT Madras"
-            src="https://maps.google.com/maps?q=IIT%20Madras&t=&z=14&ie=UTF8&iwloc=&output=embed"
-            loading="lazy"
-          ></iframe>
         </div>
       </section>
     </div>

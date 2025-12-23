@@ -39,12 +39,12 @@ function App() {
 
       {activeTab === "home" && <Home />}
 
-      {activeTab === "student" && user?.role === "student" && (
-        <StudentDashboard />
+      {activeTab === "admin" && user?.role === "admin" && (
+        <AdminDashboard user={user} />
       )}
 
-      {activeTab === "admin" && user?.role === "admin" && (
-        <AdminDashboard />
+      {activeTab === "student" && user?.role === "student" && (
+        <StudentDashboard user={user} />
       )}
 
       {/* 🔒 Safety fallback */}

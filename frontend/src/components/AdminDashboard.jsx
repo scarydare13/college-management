@@ -1,40 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./AdminDashboard.css";
 
-function AdminDashboard() {
-  // 🔹 Static data for now
-  const allCourses = [
-    { id: 1, name: "AI & Data Science", staff: "Dr. Suresh Kumar" },
-    { id: 2, name: "Database Management Systems", staff: "Prof. Anitha Rao" },
-    { id: 3, name: "Operating Systems", staff: "Dr. Meena Sharma" },
-  ];
-
-  const myCourses = [
-    { id: 1, name: "AI & Data Science" },
-    { id: 3, name: "Operating Systems" },
-  ];
-
-  const studentsByCourse = {
-    1: [
-      { id: 101, name: "Vetri Vel", grade: "A" },
-      { id: 102, name: "Surendar", grade: "B+" },
-    ],
-    3: [
-      { id: 103, name: "Saranya", grade: "A+" },
-      { id: 104, name: "Bala", grade: "" },
-    ],
-  };
-
+function AdminDashboard({ user }) {
+  const [allCourses, setAllCourses] = useState([]);
+  const [myCourses, setMyCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [students, setStudents] = useState([]);
   const [grades, setGrades] = useState({});
 
-  const handleGradeChange = (sid, value) => {
-    setGrades({ ...grades, [sid]: value });
+  useEffect(() => {
+    fetch("http://localhost:8080/api/admin/all-courses")
+      .then(res => res.json())
+      .then(setAllCourses);
+
+    if (user?.id) {
+      fetch(
+        `http://localhost:8080/api/admin/my-courses?user_id=${user.id}`
+      )
+        .then(res => res.json())
+        .then(setMyCourses);
+    }
+  }, [user]);
+
+  const handleGradeChange = (enrollmentId, value) => {
+    setGrades(prev => ({
+      ...prev,
+      [enrollmentId]: value
+    }));
   };
 
   const handleSave = () => {
-    alert("Grades saved (static for now)");
-    console.log(grades);
+    const payload = Object.entries(grades).map(
+      ([enrollment_id, grade]) => ({
+        enrollment_id: Number(enrollment_id),
+        grade
+      })
+    );
+
+    fetch("http://localhost:8080/api/admin/save-grades", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then(res => res.json())
+      .then(() => alert("Grades saved successfully"))
+      .catch(console.error);
   };
 
   return (
@@ -43,17 +53,11 @@ function AdminDashboard() {
       <p className="subtitle">Manage courses and assign grades</p>
 
       {/* All Courses */}
-      <section className="card-section slide-up delay-1">
+      <section className="card-section">
         <h3>📚 All Courses</h3>
         <table>
-          <thead>
-            <tr>
-              <th>Course</th>
-              <th>Staff</th>
-            </tr>
-          </thead>
           <tbody>
-            {allCourses.map((c) => (
+            {allCourses.map(c => (
               <tr key={c.id}>
                 <td>{c.name}</td>
                 <td>{c.staff}</td>
@@ -64,16 +68,21 @@ function AdminDashboard() {
       </section>
 
       {/* My Courses */}
-      <section className="card-section slide-up delay-2">
-        <h3>🧑‍🏫 Courses Taken By Me</h3>
+      <section className="card-section">
+        <h3>🧑‍🏫 Courses Teach By Me</h3>
         <div className="my-courses">
-          {myCourses.map((c) => (
+          {myCourses.map(c => (
             <button
               key={c.id}
-              className={`course-btn ${
-                selectedCourse === c.id ? "active" : ""
-              }`}
-              onClick={() => setSelectedCourse(c.id)}
+              className={`course-btn ${selectedCourse === c.id ? "active" : ""}`}
+              onClick={() => {
+                setSelectedCourse(c.id);
+                fetch(
+                  `http://localhost:8080/api/admin/course-students?course_id=${c.id}`
+                )
+                  .then(res => res.json())
+                  .then(setStudents);
+              }}
             >
               {c.name}
             </button>
@@ -81,29 +90,24 @@ function AdminDashboard() {
         </div>
       </section>
 
-      {/* Students for selected course */}
+      {/* Students */}
       {selectedCourse && (
-        <section className="card-section slide-up delay-3">
+        <section className="card-section">
           <h3>🎓 Students - Assign Grades</h3>
           <table>
-            <thead>
-              <tr>
-                <th>Student</th>
-                <th>Grade</th>
-              </tr>
-            </thead>
             <tbody>
-              {studentsByCourse[selectedCourse].map((s) => (
-                <tr key={s.id}>
+              {students.map(s => (
+                <tr key={s.enrollment_id}>
                   <td>{s.name}</td>
                   <td>
                     <input
                       className="grade-input"
-                      type="text"
                       defaultValue={s.grade}
-                      placeholder="Enter grade"
                       onChange={(e) =>
-                        handleGradeChange(s.id, e.target.value)
+                        handleGradeChange(
+                          s.enrollment_id,
+                          e.target.value
+                        )
                       }
                     />
                   </td>
