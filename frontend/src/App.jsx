@@ -1,20 +1,31 @@
-import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import AdminDashboard from "./components/AdminDashboard";
-import StudentDashboard from "./components/StudentDashboard";
 
 function App() {
+  const [activeTab, setActiveTab] = useState("home");
+  const [user, setUser] = useState(null);
+
   return (
     <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/student" element={<StudentDashboard />} />
-      </Routes>
+      <Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        user={user}
+        onLogout={() => setUser(null)}
+      />
+
+      {activeTab === "login" ? (
+        <Login
+          onLogin={(u) => {
+            setUser(u);
+            setActiveTab("home");
+          }}
+        />
+      ) : (
+        <Home />
+      )}
     </>
   );
 }

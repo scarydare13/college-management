@@ -1,35 +1,34 @@
+import "./Home.css";
+
 function Home() {
   return (
-    <div className="container">
-      <h1>Welcome to ABC College of Engineering</h1>
-      <p>
-        ABC College is committed to excellence in education and research,
-        offering industry-focused programs to shape future leaders.
-      </p>
+    <div className="home">
+      <section id="home" className="hero">
+        <h1>IIT Madras</h1>
+        <p>Indian Institute of Technology Madras – Excellence in Education.</p>
+        <a href="#courses" className="hero-btn">Explore Courses</a>
+      </section>
 
-      <h2>🎓 Courses Offered</h2>
-      <ul>
-        <li>B.Tech - Computer Science</li>
-        <li>B.Tech - AI & Data Science</li>
-        <li>B.Tech - Electronics</li>
-        <li>MBA</li>
-      </ul>
+      <section id="courses" className="section">
+        <h2>🎓 Courses Offered</h2>
+        <div className="card-grid">
+          <div className="card">B.Tech - Computer Science</div>
+          <div className="card">B.Tech - AI & Data Science</div>
+          <div className="card">B.Tech - Electrical Engineering</div>
+          <div className="card">M.Tech & PhD Programs</div>
+        </div>
+      </section>
 
-      <h2>📍 Address</h2>
-      <p>
-        ABC College of Engineering,<br />
-        OMR Road, Chennai, Tamil Nadu - 600001
-      </p>
-
-      <h2>🗺 Location</h2>
-      <iframe
-        title="college-location"
-        src="https://maps.google.com/maps?q=Chennai&t=&z=13&ie=UTF8&iwloc=&output=embed"
-        width="100%"
-        height="300"
-        style={{ border: 0 }}
-        loading="lazy"
-      ></iframe>
+      <section id="location" className="section light">
+        <h2>🗺 Location</h2>
+        <div className="map-container">
+          <iframe
+            title="IIT Madras"
+            src="https://maps.google.com/maps?q=IIT%20Madras&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </section>
     </div>
   );
 }

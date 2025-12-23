@@ -1,0 +1,137 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #0f172a; /* same dark as hero */
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  height: 64px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logo svg {
+  color: #60a5fa;
+}
+
+/* Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #cbd5f5;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav-btn:hover {
+  background: #1e293b;
+  color: #fff;
+}
+
+.nav-btn.active {
+  background: #1e293b;
+  color: #60a5fa;
+}
+
+/* Auth buttons */
+.auth-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.auth-btn.login {
+  background: #2563eb;
+  color: #fff;
+}
+
+.auth-btn.login:hover {
+  background: #1d4ed8;
+}
+
+.auth-btn.logout {
+  background: #dc2626;
+  color: #fff;
+}
+
+.auth-btn.logout:hover {
+  background: #b91c1c;
+}
+
+/* Mobile */
+.menu-icon {
+  display: none;
+  cursor: pointer;
+}
+
+/* Mobile menu */
+.mobile-menu {
+  background: #1e293b;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu button {
+  background: transparent;
+  border: none;
+  color: #e5e7eb;
+  padding: 12px;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.mobile-menu button:hover {
+  background: #334155;
+}
+
+.mobile-login {
+  color: #60a5fa !important;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  .menu-icon {
+    display: block;
+  }
+}

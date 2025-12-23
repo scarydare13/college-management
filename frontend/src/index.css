@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f4f6f9;
@@ -46,4 +46,15 @@ body {
   color: #fff;
   border: none;
   cursor: pointer;
+} */
+
+html {
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
