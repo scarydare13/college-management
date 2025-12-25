@@ -6,11 +6,11 @@ import StudentDashboard from "./components/StudentDashboard";
 import AdminDashboard from "./components/AdminDashboard";
 
 function App() {
-  // const [activeTab, setActiveTab] = useState("home"); 
-  // const [user, setUser] = useState(null);
+  const [activeTab, setActiveTab] = useState("home"); 
+  const [user, setUser] = useState(null);
 
-  const [activeTab, setActiveTab] = useState("student");
-  const [user, setUser] = useState({ role: "student", name: "Test Admin" });
+  // const [activeTab, setActiveTab] = useState("admin");
+  // const [user, setUser] = useState({ role: "admin", name: "Test Admin" });
 
   const handleLogout = () => {
     setUser(null);

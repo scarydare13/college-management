@@ -3,6 +3,7 @@ package controllers
 import (
 	"database/sql"
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"college-api/config"
@@ -12,7 +13,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		json.NewEncoder(w).Encode(map[string]string{
+			"message": "Method not allowed",
+		})
 		return
 	}
 
@@ -23,16 +27,22 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{
+			"message": "Invalid request body",
+		})
 		return
 	}
 
+	// Log incoming UI values
+	log.Printf("Login request from UI -> email=%s role=%s password=%s", req.Email, req.Role, req.Password)
+
 	var (
-		id       int
-		name     string
-		email    string
-		dbPass   string
-		role     string
+		id     int
+		name   string
+		email  string
+		dbPass string
+		role   string
 	)
 
 	err := config.DB.QueryRow(`
@@ -42,26 +52,48 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	`, req.Email, req.Role).Scan(&id, &name, &email, &dbPass, &role)
 
 	if err == sql.ErrNoRows {
-		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+		log.Printf("DB query returned no rows for email=%s role=%s", req.Email, req.Role)
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]string{
+			"message": "Invalid credentials",
+		})
 		return
 	} else if err != nil {
-		http.Error(w, "Server error", http.StatusInternalServerError)
+		log.Printf("DB query error for email=%s role=%s: %v", req.Email, req.Role, err)
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{
+			"message": "Server error",
+		})
 		return
 	}
 
-	// ❌ NO HASHING — DIRECT STRING COMPARISON
+	// Log DB values retrieved
+	log.Printf("DB record -> id=%d name=%s email=%s role=%s password=%s", id, name, email, role, dbPass)
+
+	// ⚠️ Plain text comparison (OK for now, but use bcrypt later)
 	if req.Password != dbPass {
-		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]string{
+			"message": "Invalid credentials",
+		})
 		return
 	}
 
-	// ✅ Login success
+	// ✅ Login success — include DB debug info
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"user": map[string]interface{}{
 			"id":    id,
 			"name":  name,
 			"email": email,
 			"role":  role,
+		},
+		"db_debug": map[string]interface{}{
+			"id":       id,
+			"name":     name,
+			"email":    email,
+			"role":     role,
+			"password": dbPass,
 		},
 	})
 }

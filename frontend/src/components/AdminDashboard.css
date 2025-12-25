@@ -131,6 +131,18 @@ tbody tr:hover {
   animation: slideUp 0.6s ease forwards;
 }
 
+.upload-box {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.upload-box input {
+  padding: 6px;
+}
+
+
 .delay-1 { animation-delay: 0.2s; }
 .delay-2 { animation-delay: 0.4s; }
 .delay-3 { animation-delay: 0.6s; }
