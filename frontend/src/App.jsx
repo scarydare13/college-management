@@ -6,8 +6,11 @@ import StudentDashboard from "./components/StudentDashboard";
 import AdminDashboard from "./components/AdminDashboard";
 
 function App() {
-  const [activeTab, setActiveTab] = useState("home"); 
-  const [user, setUser] = useState(null);
+  // const [activeTab, setActiveTab] = useState("home"); 
+  // const [user, setUser] = useState(null);
+
+  const [activeTab, setActiveTab] = useState("student");
+  const [user, setUser] = useState({ role: "student", name: "Test Admin" });
 
   const handleLogout = () => {
     setUser(null);
@@ -39,12 +42,12 @@ function App() {
 
       {activeTab === "home" && <Home />}
 
-      {activeTab === "student" && user?.role === "student" && (
-        <StudentDashboard />
+      {activeTab === "admin" && user?.role === "admin" && (
+        <AdminDashboard user={user} />
       )}
 
-      {activeTab === "admin" && user?.role === "admin" && (
-        <AdminDashboard />
+      {activeTab === "student" && user?.role === "student" && (
+        <StudentDashboard user={user} />
       )}
 
       {/* 🔒 Safety fallback */}
