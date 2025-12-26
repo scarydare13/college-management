@@ -31,10 +31,10 @@ func RegisterRoutes() {
 		middlewares.EnableCORS(http.HandlerFunc(controllers.GetCourseStudents)),
 	)
 
-	http.Handle(
-		"/api/admin/save-grades",
-		middlewares.EnableCORS(http.HandlerFunc(controllers.SaveGrades)),
-	)
+	// http.Handle(
+	// 	"/api/admin/save-grades",
+	// 	middlewares.EnableCORS(http.HandlerFunc(controllers.SaveGrades)),
+	// )
 
 	http.Handle(
 		"/api/student/completed-courses",
@@ -44,5 +44,20 @@ func RegisterRoutes() {
 	http.Handle(
 		"/api/student/ongoing-courses",
 		middlewares.EnableCORS(http.HandlerFunc(controllers.GetOngoingCourses)),
+	)
+
+	http.Handle(
+		"/api/getcourses",
+		middlewares.EnableCORS(http.HandlerFunc(controllers.GetCourses)),
+	)
+
+	http.Handle(
+		"/api/student/enroll",
+		middlewares.EnableCORS(http.HandlerFunc(controllers.EnrollStudent)),
+	)
+
+	http.Handle(
+		"/api/admin/upload-grades",
+		middlewares.EnableCORS(http.HandlerFunc(controllers.UploadGrades)),
 	)
 }
