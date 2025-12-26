@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./StudentDashboard.css";
 
 function StudentDashboard({ user }) {
@@ -24,9 +25,25 @@ function StudentDashboard({ user }) {
   return (
     <div className="student-page fade-in">
       <h2 className="title">🎓 Student Dashboard</h2>
-      <p className="subtitle">Welcome! Here are your course details.</p>
+      <p className="subtitle">Track your courses and academic progress</p>
 
-      {/* Completed Courses */}
+      {/* Summary */}
+      <div className="summary-grid">
+        <div className="summary-card">
+          <h4>Ongoing</h4>
+          <span>{ongoingCourses.length}</span>
+        </div>
+        <div className="summary-card">
+          <h4>Completed</h4>
+          <span>{completedCourses.length}</span>
+        </div>
+        <div className="summary-card">
+          <h4>Available</h4>
+          <span>{availableCourses.length}</span>
+        </div>
+      </div>
+
+      {/* Enroll */}
       <section className="card-section slide-up delay-1">
         <h3>✅ Completed Courses</h3>
         <div className="table-wrapper">

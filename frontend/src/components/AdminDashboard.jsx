@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./AdminDashboard.css";
 
+function AdminDashboard({ user }) {
+  const [allCourses, setAllCourses] = useState([]);
+  const [myCourses, setMyCourses] = useState([]);
 function AdminDashboard({ user }) {
   const [allCourses, setAllCourses] = useState([]);
   const [myCourses, setMyCourses] = useState([]);
@@ -50,13 +54,15 @@ function AdminDashboard({ user }) {
   return (
     <div className="admin-page fade-in">
       <h2 className="title">👨‍💼 Admin Dashboard</h2>
-      <p className="subtitle">Manage courses and assign grades</p>
+      <p className="subtitle">Manage courses and update grades</p>
 
       {/* All Courses */}
+      <section className="card-section">
       <section className="card-section">
         <h3>📚 All Courses</h3>
         <table>
           <tbody>
+            {allCourses.map(c => (
             {allCourses.map(c => (
               <tr key={c.id}>
                 <td>{c.name}</td>
@@ -70,7 +76,10 @@ function AdminDashboard({ user }) {
       {/* My Courses */}
       <section className="card-section">
         <h3>🧑‍🏫 Courses Teach By Me</h3>
+      <section className="card-section">
+        <h3>🧑‍🏫 Courses Teach By Me</h3>
         <div className="my-courses">
+          {myCourses.map(c => (
           {myCourses.map(c => (
             <button
               key={c.id}
@@ -98,6 +107,8 @@ function AdminDashboard({ user }) {
             <tbody>
               {students.map(s => (
                 <tr key={s.enrollment_id}>
+              {students.map(s => (
+                <tr key={s.enrollment_id}>
                   <td>{s.name}</td>
                   <td>
                     <input
@@ -116,9 +127,21 @@ function AdminDashboard({ user }) {
             </tbody>
           </table>
 
-          <button className="save-btn" onClick={handleSave}>
-            💾 Save Grades
-          </button>
+          {/* Upload Excel */}
+          <div className="upload-box">
+            <input
+              type="file"
+              accept=".xlsx,.xls"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            <button
+              className="save-btn"
+              onClick={handleUpload}
+              disabled={loading}
+            >
+              {loading ? "Uploading..." : "📤 Upload Excel & Update DB"}
+            </button>
+          </div>
         </section>
       )}
     </div>
